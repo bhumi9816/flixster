@@ -25,8 +25,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tabelView.dataSource = self
         tabelView.delegate = self
         
-        print("Hello\n")
-        
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         
@@ -48,8 +46,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             
             //reloads and call the tabelView functions after the movies dictionary is downloaded using API.
             self.tabelView.reloadData()
-              
-            print(dataDictionary)
            
            
            }
@@ -88,14 +84,29 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        //print("Loading up the details screen")
+        
+        //find the selected movie
+        let cell = sender as! UITableViewCell //casting the sender as type UITabelViewCell
+        
+        let indexPath = tabelView.indexPath(for: cell)!
+        
+        //fetched the movie from movies dictionary for the given indexPath
+        let movie = movies[indexPath.row]
+        
+        //pass the selected move to the details view Controller
+        let detailsViewController = segue.destination as! MovieDetailsViewController
+        
+        detailsViewController.movie = movie
+        
+        tabelView.deselectRow(at: indexPath, animated: true)
     }
-    */
 
 }
